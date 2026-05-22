@@ -1,0 +1,2206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AgentCareer // Hub</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230071e3'/><text x='16' y='23' text-anchor='middle' font-size='20' font-weight='700' fill='white'>A</text></svg>" />
+<style>
+:root {
+  --bg: #f5f5f7;
+  --card-bg: #ffffff;
+  --text: #1d1d1f;
+  --text-secondary: #86868b;
+  --text-tertiary: #aeaeb2;
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --accent-light: rgba(0, 113, 227, 0.08);
+  --border: rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 4px 30px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.08);
+  --radius: 18px;
+  --radius-sm: 10px;
+  --radius-pill: 980px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --nav-height: 48px;
+  --input-bg: #f5f5f7;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* ── Apple Glass Navbar ── */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  z-index: 100;
+}
+
+.navbar-brand {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.navbar-brand::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.navbar-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  transition: color 0.2s, background 0.2s;
+}
+
+.navbar-link:hover {
+  background: var(--accent-light);
+}
+
+/* ── Main Container ── */
+.main {
+  padding-top: calc(var(--nav-height) + 32px);
+  padding-bottom: 60px;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* ── Section ── */
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── Cards ── */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 28px;
+  transition: box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.card + .card { margin-top: 20px; }
+
+/* ── Widget Grid (Dashboard) ── */
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.widget {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 28px;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.widget:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.widget-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 16px;
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.widget-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  margin-bottom: 4px;
+}
+
+.widget-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.widget-stat {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  background: var(--input-bg);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.widget-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-top: 14px;
+}
+
+/* ── Typography ── */
+h2 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  margin-bottom: 12px;
+}
+
+h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.section-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  max-width: 540px;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover { opacity: 0.92; }
+.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-secondary {
+  background: var(--input-bg);
+  color: var(--text);
+}
+
+.btn-secondary:hover { background: #e8e8ed; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 8px 16px;
+}
+
+.btn-ghost:hover { color: var(--text); background: var(--input-bg); }
+
+.btn-sm { font-size: 12px; padding: 6px 14px; }
+.btn-lg { font-size: 15px; padding: 14px 28px; }
+
+/* ── Inputs ── */
+.input,
+.textarea {
+  width: 100%;
+  font-family: var(--font);
+  font-size: 14px;
+  background: var(--input-bg);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  color: var(--text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  resize: vertical;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
+  background: #fff;
+}
+
+.select {
+  width: 100%;
+  font-family: var(--font);
+  font-size: 14px;
+  background: var(--input-bg);
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  color: var(--text);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2386868b' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+
+.input-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.input-group { flex: 1; }
+.input-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Pomodoro ── */
+.pomodoro-display {
+  text-align: center;
+  padding: 32px 0 24px;
+}
+
+.pomodoro-status {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.pomodoro-time {
+  font-size: 88px;
+  font-weight: 200;
+  letter-spacing: -3px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.pomodoro-chapter {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  margin-top: 8px;
+}
+
+.pomodoro-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+/* ── Tags ── */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--input-bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1.5px solid transparent;
+}
+
+.tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.tag.learned {
+  background: rgba(52, 199, 89, 0.08);
+  color: #34c759;
+  border-color: rgba(52, 199, 89, 0.2);
+}
+
+/* ── Course Card ── */
+.course-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.course-card h4 {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text);
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: color 0.2s;
+}
+
+.course-card h4:hover { color: var(--accent); }
+
+/* ── Log Preview ── */
+.log-preview {
+  background: var(--input-bg);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  font-size: 13px;
+  font-family: "SF Mono", ui-monospace, Menlo, monospace;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  min-height: 60px;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+
+/* ── Interview Question ── */
+.question-card {
+  background: var(--accent-light);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.question-card p {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.question-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.round-badge {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+/* ── Score Ring ── */
+.score-ring {
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+
+.score-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.score-ring .score-value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 200;
+  letter-spacing: -1px;
+}
+
+/* ── Stat Blocks ── */
+.stat-blocks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.stat-block {
+  background: var(--input-bg);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-block .stat-value {
+  font-size: 28px;
+  font-weight: 200;
+  letter-spacing: -1px;
+  color: var(--text);
+}
+
+.stat-block .stat-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Resume Preview ── */
+.resume-preview {
+  background: var(--input-bg);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  min-height: 300px;
+  max-height: 520px;
+  overflow-y: auto;
+  color: var(--text);
+}
+
+.resume-preview:empty::after {
+  content: "完成前面三个模块的学习与演练，积累真实战果后，点击「终极一键完美优化」...";
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* ── Toast ── */
+.toasts {
+  position: fixed;
+  top: calc(var(--nav-height) + 16px);
+  right: 16px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  background: var(--card-bg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+  min-width: 260px;
+  max-width: 360px;
+  animation: toast-in 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
+}
+
+.toast.out {
+  animation: toast-out 0.3s ease forwards;
+}
+
+.toast-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.toast-msg {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(60px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes toast-out {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(60px); }
+}
+
+/* ── Spinner ── */
+.spinner {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border: 2.5px solid rgba(0, 113, 227, 0.15);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Mode Toggle ── */
+.mode-toggle {
+  display: flex;
+  gap: 0;
+  background: var(--input-bg);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  margin-bottom: 24px;
+}
+
+.mode-toggle button {
+  flex: 1;
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-toggle button.active {
+  background: #fff;
+  color: var(--text);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ── File Upload ── */
+.file-upload-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-light);
+  transition: all 0.2s;
+}
+
+.file-upload-label:hover { opacity: 0.85; }
+.file-upload-input { display: none; }
+
+/* ── Gap Utilities ── */
+.gap-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-24 { margin-bottom: 24px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+
+/* ── Two Column layout ── */
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 720px) {
+  .widget-grid { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .stat-blocks { grid-template-columns: repeat(3, 1fr); }
+  .pomodoro-time { font-size: 64px; }
+  .main { padding-left: 16px; padding-right: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ Navbar ════════════════ -->
+<nav class="navbar">
+  <div class="navbar-brand">AgentCareer // Hub</div>
+  <button class="navbar-link" onclick="returnToBlog()">← 返回博客主页</button>
+</nav>
+
+<!-- ════════════════ Toasts ════════════════ -->
+<div class="toasts" id="toasts"></div>
+
+<!-- ════════════════ Main Content ════════════════ -->
+<div class="main">
+
+  <!-- ── Dashboard ── -->
+  <section class="section active" id="sec-dashboard">
+    <h2>AgentCareer-Hub</h2>
+    <p class="section-desc">平时蓄水 → 战前阅兵 → 全真通关 → 终极简历<br>AI Agent 实习生全栈攻坚工作站</p>
+    <div class="widget-grid" id="widgets"></div>
+  </section>
+
+  <!-- ── Pomodoro + Courses ── -->
+  <section class="section" id="sec-pomodoro">
+    <h2>⏱ 平时蓄水</h2>
+    <p class="section-desc">番茄钟专注学习 · B站精选课程 · Obsidian 笔记沉淀</p>
+    <div class="two-col">
+      <div class="card" id="pomodoro-card">
+        <h3>番茄时钟</h3>
+        <div class="pomodoro-display" id="pomodoro-display">
+          <div class="pomodoro-status" id="pomodoro-status">🍅 专注工作中...</div>
+          <div class="pomodoro-time" id="pomodoro-time">25:00</div>
+          <div id="pomodoro-chapter-wrap"></div>
+        </div>
+        <div class="pomodoro-controls">
+          <button class="btn btn-primary" id="btn-start"><span>▶</span> 开始</button>
+          <button class="btn btn-secondary" id="btn-pause"><span>⏸</span> 暂停</button>
+          <button class="btn btn-ghost" id="btn-reset"><span>↺</span> 重置</button>
+        </div>
+        <h4>📋 今日学习日志</h4>
+        <div class="log-preview" id="log-preview">今日暂无学习记录...</div>
+        <button class="btn btn-ghost btn-sm" id="btn-export-log">📤 导出学习日志</button>
+      </div>
+      <div class="card" id="courses-card">
+        <h3>B 站精选课程</h3>
+        <div id="courses-list"></div>
+        <div class="mb-16"></div>
+        <div class="input-group mb-12">
+          <label>已选章节</label>
+          <select class="select" id="selected-chapter-display">
+            <option value="">— 请选择章节 —</option>
+          </select>
+        </div>
+        <div class="input-group mb-12">
+          <label>笔记类型</label>
+          <select class="select" id="note-type">
+            <option value="concept">概念理解</option>
+            <option value="practice">实战踩坑</option>
+            <option value="architecture">架构设计</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" id="btn-generate-note">✨ 生成 Obsidian 笔记</button>
+      </div>
+    </div>
+    <button class="btn btn-ghost mt-16" onclick="showSection('dashboard')">← 返回控制台</button>
+  </section>
+
+  <!-- ── Battle (Socratic/Feynman) ── -->
+  <section class="section" id="sec-learning">
+    <h2>🧠 战前阅兵</h2>
+    <p class="section-desc">苏格拉底追问 · 费曼通俗解释 · 双法打通知识盲区</p>
+
+    <div class="card mb-20">
+      <h3>🔧 API 配置</h3>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Base URL</label>
+          <input class="input" id="apiBaseUrl" value="https://api.deepseek.com" placeholder="Base URL" />
+        </div>
+        <div class="input-group">
+          <label>API Key</label>
+          <input class="input" id="apiKey" type="password" value="sk-4d575ba5f6174aba82a88f1589edcab1" placeholder="留空使用 Mock 模式" />
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-20">
+      <h3>📥 导入知识点</h3>
+      <textarea class="textarea" id="knowledge-input" rows="3" placeholder="粘贴你的技术笔记、重点概念或已掌握的知识点..."></textarea>
+      <div class="mt-12 tags" id="learned-tags"></div>
+    </div>
+
+    <!-- Pre-battle -->
+    <div class="card" id="battle-start">
+      <h3>⚔️ 战前双法演练</h3>
+      <div class="mode-toggle" id="mode-toggle">
+        <button class="active" data-mode="socratic">🔍 苏格拉底追问</button>
+        <button data-mode="feynman">🎯 费曼通俗解释</button>
+      </div>
+      <div style="text-align:center">
+        <button class="btn btn-primary btn-lg" id="btn-start-battle">🚀 开始战前测试</button>
+      </div>
+    </div>
+
+    <!-- Active battle -->
+    <div class="card" id="battle-active" style="display:none">
+      <div class="question-meta">
+        <h4>🔥 战前拷问进行中</h4>
+        <span class="round-badge" id="round-badge">第 1 / 3 轮</span>
+      </div>
+      <div id="battle-loading" style="text-align:center;padding:40px;display:none">
+        <div class="spinner"></div>
+        <p style="margin-top:12px;color:var(--text-secondary);font-size:14px">正在生成考题...</p>
+      </div>
+      <div id="battle-question-wrap">
+        <div class="question-card"><p id="battle-question"></p></div>
+        <textarea class="textarea mb-12" id="battle-answer" rows="5" placeholder="请输入你的回答..."></textarea>
+        <div style="text-align:right">
+          <button class="btn btn-primary" id="btn-submit-answer">提交回答</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Battle report -->
+    <div class="card" id="battle-report" style="display:none">
+      <h3>🎉 战前演练完成</h3>
+      <div style="display:flex;align-items:center;justify-content:center;gap:24px;padding:20px 0">
+        <div class="score-ring">
+          <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="8" />
+            <circle cx="50" cy="50" r="45" fill="none" stroke="var(--accent)" stroke-width="8" stroke-dasharray="0 283" stroke-linecap="round" id="battle-score-ring" />
+          </svg>
+          <div class="score-value" id="battle-score-value">0</div>
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:600">综合得分</div>
+          <div style="font-size:13px;color:var(--text-secondary)">基于回答质量与工程思维</div>
+        </div>
+      </div>
+      <div class="gap-row">
+        <button class="btn btn-primary btn-sm" id="btn-export-flashcards">📤 沉淀至 Obsidian 闪卡</button>
+        <button class="btn btn-ghost btn-sm" id="btn-reset-battle">重新开始</button>
+      </div>
+    </div>
+
+    <button class="btn btn-ghost mt-16" onclick="showSection('dashboard')">← 返回控制台</button>
+  </section>
+
+  <!-- ── Mock Interview ── -->
+  <section class="section" id="sec-interview">
+    <h2>🎙 全真通关</h2>
+    <p class="section-desc">5轮大厂Agent团队硬核面试，偏向工程落地与稳定性</p>
+
+    <div class="card" id="interview-start">
+      <div style="text-align:center;padding:40px 0">
+        <div style="font-size:40px;margin-bottom:16px">🎤</div>
+        <h3>AI 模拟面试演练场</h3>
+        <p style="font-size:15px;color:var(--text-secondary);max-width:440px;margin:0 auto 20px;line-height:1.7">
+          5轮硬核面试题，完成后生成结构化复盘报告
+        </p>
+        <button class="btn btn-primary btn-lg" id="btn-start-interview">🚀 开始模拟面试</button>
+      </div>
+    </div>
+
+    <div class="card" id="interview-active" style="display:none">
+      <div class="question-meta">
+        <h4>面试进行中</h4>
+        <span class="round-badge" id="interview-round-badge">第 1 / 5 题</span>
+      </div>
+      <div class="question-card"><p id="interview-question"></p></div>
+      <textarea class="textarea mb-12" id="interview-answer" rows="5" placeholder="请输入你的回答..."></textarea>
+      <div style="text-align:right">
+        <button class="btn btn-primary" id="btn-submit-interview">提交回答</button>
+      </div>
+    </div>
+
+    <div class="card" id="interview-report" style="display:none">
+      <h3>📊 面试复盘报告</h3>
+      <div style="display:flex;align-items:center;justify-content:center;gap:24px;padding:20px 0">
+        <div class="score-ring">
+          <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="8" />
+            <circle cx="50" cy="50" r="45" fill="none" stroke="var(--accent)" stroke-width="8" stroke-dasharray="0 283" stroke-linecap="round" id="iv-score-ring" />
+          </svg>
+          <div class="score-value" id="iv-score-value">0</div>
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:600">综合得分</div>
+          <div style="font-size:13px;color:var(--text-secondary)">基于回答质量与覆盖度</div>
+        </div>
+      </div>
+      <h4>💡 面试亮点</h4>
+      <div class="log-preview" id="interview-highlights" style="max-height:140px">整体表现平稳</div>
+      <div class="gap-row mt-12">
+        <button class="btn btn-primary btn-sm" id="btn-export-report">📤 下载面试复盘.md</button>
+        <button class="btn btn-ghost btn-sm" id="btn-reset-interview">重新开始</button>
+      </div>
+    </div>
+
+    <button class="btn btn-ghost mt-16" onclick="showSection('dashboard')">← 返回控制台</button>
+  </section>
+
+  <!-- ── Resume ── -->
+  <section class="section" id="sec-resume">
+    <h2>📂 终极简历</h2>
+    <p class="section-desc">上传原始简历 → 粘贴目标 JD → 基于全局战果生成金牌简历</p>
+    <div class="two-col">
+      <div class="card">
+        <h3>上传原始简历</h3>
+        <div class="gap-row mb-16">
+          <label class="file-upload-label" for="resumeFileInput">📎 上传简历 (TXT / MD / DOCX / PDF)</label>
+          <input type="file" class="file-upload-input" id="resumeFileInput" accept=".txt,.md,.docx,.pdf" />
+          <button class="btn btn-ghost btn-sm" id="btn-load-mock">📝 加载 Mock</button>
+        </div>
+        <textarea class="textarea mb-12" id="resume-text" rows="4" placeholder="或直接粘贴简历内容..."></textarea>
+        <input class="input mb-12" id="job-title" value="AI Agent 应用实习生" placeholder="目标岗位" />
+        <textarea class="textarea mb-12" id="jd-text" rows="3" placeholder="粘贴目标岗位 JD..."></textarea>
+        <div class="stat-blocks" id="resume-stats">
+          <div class="stat-block">
+            <div class="stat-value" id="stat-chapters">0</div>
+            <div class="stat-label">已学章节</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-value" id="stat-socratic">0</div>
+            <div class="stat-label">战前通关</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-value" id="stat-interview">0</div>
+            <div class="stat-label">面试得分</div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg mt-16" style="width:100%;justify-content:center" id="btn-optimize-resume">
+          ✨ 终极一键完美优化
+        </button>
+      </div>
+      <div class="card">
+        <h3>金牌简历预览</h3>
+        <div class="resume-preview" id="resume-preview"></div>
+        <div class="gap-row mt-16">
+          <button class="btn btn-primary btn-sm" id="btn-export-doc">📤 导出 Word</button>
+          <button class="btn btn-secondary btn-sm" id="btn-export-html">📄 导出 HTML / PDF</button>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-ghost mt-16" onclick="showSection('dashboard')">← 返回控制台</button>
+  </section>
+
+</div>
+
+<!-- ════════════════ Scripts ════════════════ -->
+<script>
+(function () {
+  "use strict";
+
+  /* ══════════════════ GLOBAL STATE ══════════════════ */
+  window.UserCareerState = {
+    learnedChapters: [],
+    passedSocraticQuestions: [],
+    mockInterviewScore: null,
+    mockInterviewHighlights: "",
+  };
+
+  function addLearnedChapter(chapterName) {
+    if (window.UserCareerState.learnedChapters.includes(chapterName)) return;
+    window.UserCareerState.learnedChapters.push(chapterName);
+    saveState();
+    refreshDashboardWidgets();
+  }
+
+  function addPassedSocraticQuestion(question, answer, score) {
+    window.UserCareerState.passedSocraticQuestions.push({
+      question,
+      answer,
+      score,
+      timestamp: new Date().toISOString(),
+    });
+    saveState();
+    refreshDashboardWidgets();
+  }
+
+  function setMockInterviewResult(score, highlights) {
+    window.UserCareerState.mockInterviewScore = score;
+    window.UserCareerState.mockInterviewHighlights = highlights;
+    saveState();
+    refreshDashboardWidgets();
+  }
+
+  function isChapterLearned(chapterName) {
+    return window.UserCareerState.learnedChapters.includes(chapterName);
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem("AgentCareerState", JSON.stringify(window.UserCareerState));
+    } catch (_) {}
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem("AgentCareerState");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        window.UserCareerState.learnedChapters = parsed.learnedChapters || [];
+        window.UserCareerState.passedSocraticQuestions = parsed.passedSocraticQuestions || [];
+        window.UserCareerState.mockInterviewScore = parsed.mockInterviewScore ?? null;
+        window.UserCareerState.mockInterviewHighlights = parsed.mockInterviewHighlights || "";
+      }
+    } catch (_) {}
+  }
+
+  /* ══════════════════ UTILITIES ══════════════════ */
+  function formatTime(seconds) {
+    const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+    const s = String(seconds % 60).padStart(2, "0");
+    return m + ":" + s;
+  }
+
+  async function copyToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (_) {
+      const t = document.createElement("textarea");
+      t.value = text;
+      document.body.appendChild(t);
+      t.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(t);
+      return ok;
+    }
+  }
+
+  async function exportToObsidian(fileName, content, toastFn) {
+    var isFileProtocol = window.location.protocol === "file:";
+    if (!isFileProtocol) {
+      try {
+        var r = await fetch("http://127.0.0.1:8000/api/save_to_obsidian", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ file_name: fileName, content }),
+        });
+        if (r.ok) {
+          toastFn("Ares协议联调成功", "已写入本地 Obsidian 库！");
+          return true;
+        }
+      } catch (_) {}
+    }
+    var ok = await copyToClipboard(content);
+    if (ok) {
+      toastFn("已复制到剪贴板", isFileProtocol ? "file:// 协议下无法连接本地服务，请通过 http://localhost 访问" : "本地服务未开启，内容已复制到剪贴板");
+    } else {
+      toastFn("导出失败", "请通过 http://localhost:8080 访问本页面");
+    }
+    return false;
+  }
+
+  function getApiConfig() {
+    const baseUrl = (document.getElementById("apiBaseUrl")?.value || "").trim() || "https://api.deepseek.com";
+    const key = (document.getElementById("apiKey")?.value || "").trim();
+    return { baseUrl, key };
+  }
+
+  function hasApiKey() {
+    return !!getApiConfig().key;
+  }
+
+  async function callLLM(messages, systemPrompt) {
+    const c = getApiConfig();
+    if (!c.key) throw new Error("NO_API_KEY");
+    const r = await fetch(c.baseUrl + "/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + c.key },
+      body: JSON.stringify({
+        model: "deepseek-chat",
+        messages: [{ role: "system", content: systemPrompt }, ...messages],
+        temperature: 0.7,
+        max_tokens: 3000,
+      }),
+    });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return (await r.json()).choices[0].message.content;
+  }
+
+  /* ══════════════════ TOAST ══════════════════ */
+  function showToast(title, message) {
+    const container = document.getElementById("toasts");
+    const el = document.createElement("div");
+    el.className = "toast";
+    el.innerHTML =
+      '<div class="toast-title">' +
+      title +
+      '</div><div class="toast-msg">' +
+      message +
+      "</div>";
+    container.appendChild(el);
+    setTimeout(function () {
+      el.classList.add("out");
+      setTimeout(function () {
+        if (el.parentNode) el.parentNode.removeChild(el);
+      }, 300);
+    }, 3500);
+  }
+
+  /* ══════════════════ NAVIGATION ══════════════════ */
+  window.showSection = function (id) {
+    document.querySelectorAll(".section").forEach(function (s) {
+      s.classList.remove("active");
+    });
+    var target = document.getElementById("sec-" + id);
+    if (target) {
+      target.classList.add("active");
+      if (id === "resume") refreshResumeStats();
+      if (id === "pomodoro") refreshCoursesUI();
+      if (id === "learning") refreshLearnedTags();
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  window.returnToBlog = function () {
+    window.showSection("dashboard");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  /* ══════════════════ DASHBOARD WIDGETS ══════════════════ */
+  function refreshDashboardWidgets() {
+    var cs = window.UserCareerState;
+    var widgets = [
+      {
+        id: "pomodoro",
+        icon: "🍅",
+        title: "平时蓄水",
+        subtitle: "番茄钟 · B站课程 · Obsidian笔记",
+        stat: cs.learnedChapters.length + " 章节已学",
+      },
+      {
+        id: "learning",
+        icon: "🧠",
+        title: "战前阅兵",
+        subtitle: "苏格拉底/费曼双法演练",
+        stat: cs.passedSocraticQuestions.length + " 题通关",
+      },
+      {
+        id: "interview",
+        icon: "🎤",
+        title: "全真通关",
+        subtitle: "模拟面试 · 复盘报告",
+        stat: (cs.mockInterviewScore || 0) + " 分",
+      },
+      {
+        id: "resume",
+        icon: "📄",
+        title: "终极简历",
+        subtitle: "基于真实战果生成金牌简历",
+        stat: "待生成",
+      },
+    ];
+    var container = document.getElementById("widgets");
+    container.innerHTML = "";
+    widgets.forEach(function (w, i) {
+      var div = document.createElement("div");
+      div.className = "widget";
+      div.style.animationDelay = i * 0.1 + "s";
+      div.innerHTML =
+        '<div class="widget-icon">' +
+        w.icon +
+        "</div>" +
+        '<div class="widget-title">' +
+        w.title +
+        "</div>" +
+        '<div class="widget-subtitle">' +
+        w.subtitle +
+        "</div>" +
+        '<span class="widget-stat">' +
+        w.stat +
+        "</span>" +
+        '<div class="widget-footer">进入模块 <span style="font-size:14px">→</span></div>';
+      div.addEventListener("click", function () {
+        window.showSection(w.id);
+      });
+      container.appendChild(div);
+    });
+  }
+
+  /* ══════════════════ POMODORO ══════════════════ */
+  var pomodoro = {
+    timeLeft: 25 * 60,
+    isRunning: false,
+    isWork: true,
+    currentTask: null,
+    studyRecords: [],
+    intervalId: null,
+  };
+
+  function savePomodoroState() {
+    try {
+      localStorage.setItem(
+        "PomodoroState",
+        JSON.stringify({
+          timeLeft: pomodoro.timeLeft,
+          isRunning: pomodoro.isRunning,
+          isWork: pomodoro.isWork,
+          currentTask: pomodoro.currentTask,
+          studyRecords: pomodoro.studyRecords,
+        })
+      );
+    } catch (_) {}
+  }
+
+  function loadPomodoroState() {
+    try {
+      var raw = localStorage.getItem("PomodoroState");
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        pomodoro.timeLeft = parsed.timeLeft ?? 25 * 60;
+        pomodoro.isWork = parsed.isWork ?? true;
+        pomodoro.currentTask = parsed.currentTask || null;
+        pomodoro.studyRecords = parsed.studyRecords || [];
+      }
+    } catch (_) {}
+  }
+
+  function updatePomodoroUI() {
+    document.getElementById("pomodoro-time").textContent = formatTime(pomodoro.timeLeft);
+    document.getElementById("pomodoro-status").textContent = pomodoro.isWork
+      ? "🍅 专注工作中..."
+      : "☕ 休息时间";
+    var wrap = document.getElementById("pomodoro-chapter-wrap");
+    if (pomodoro.currentTask) {
+      wrap.innerHTML =
+        '<span class="pomodoro-chapter">' + pomodoro.currentTask.chapter + "</span>";
+    } else {
+      wrap.innerHTML =
+        '<span style="font-size:13px;color:var(--text-tertiary)">未选择任务</span>';
+    }
+    refreshLogPreview();
+    document.getElementById("btn-start").disabled = pomodoro.isRunning;
+  }
+
+  function refreshLogPreview() {
+    var el = document.getElementById("log-preview");
+    if (pomodoro.studyRecords.length > 0) {
+      el.textContent = pomodoro.studyRecords
+        .map(function (r) {
+          return "- [x] " + r.timestamp + " | " + r.chapter + " (" + r.duration + "min)";
+        })
+        .join("\n");
+    } else {
+      el.textContent = "今日暂无学习记录...";
+    }
+  }
+
+  function startPomodoro() {
+    if (pomodoro.isRunning) return;
+    if (!pomodoro.currentTask) {
+      showToast("请先选择任务", "从课程大纲中选择一个章节");
+      return;
+    }
+    pomodoro.isRunning = true;
+    document.getElementById("btn-start").disabled = true;
+    pomodoro.intervalId = setInterval(function () {
+      pomodoro.timeLeft--;
+      if (pomodoro.timeLeft <= 0) {
+        clearInterval(pomodoro.intervalId);
+        pomodoro.isRunning = false;
+        if (pomodoro.isWork && pomodoro.currentTask) {
+          pomodoro.studyRecords.push({
+            course: pomodoro.currentTask.course,
+            chapter: pomodoro.currentTask.chapter,
+            timestamp: new Date().toLocaleString("zh-CN"),
+            duration: 25,
+          });
+          addLearnedChapter(pomodoro.currentTask.chapter);
+          showToast("番茄钟完成！", "[[" + pomodoro.currentTask.chapter + "]] 已加入全局状态");
+          refreshCoursesUI();
+        }
+        pomodoro.isWork = !pomodoro.isWork;
+        pomodoro.timeLeft = pomodoro.isWork ? 25 * 60 : 5 * 60;
+      }
+      updatePomodoroUI();
+      savePomodoroState();
+    }, 1000);
+    savePomodoroState();
+  }
+
+  function pausePomodoro() {
+    pomodoro.isRunning = false;
+    clearInterval(pomodoro.intervalId);
+    document.getElementById("btn-start").disabled = false;
+    savePomodoroState();
+  }
+
+  function resetPomodoro() {
+    pausePomodoro();
+    pomodoro.timeLeft = pomodoro.isWork ? 25 * 60 : 5 * 60;
+    updatePomodoroUI();
+    savePomodoroState();
+  }
+
+  function selectChapter(courseTitle, chapterName, bvid, p) {
+    pomodoro.currentTask = { course: courseTitle, chapter: chapterName };
+    var sel = document.getElementById("selected-chapter-display");
+    var opts = sel.options;
+    for (var i = 0; i < opts.length; i++) {
+      if (opts[i].value === chapterName) {
+        sel.selectedIndex = i;
+        break;
+      }
+    }
+    updatePomodoroUI();
+    window.open(
+      p > 1
+        ? "https://www.bilibili.com/video/" + bvid + "?p=" + p
+        : "https://www.bilibili.com/video/" + bvid,
+      "_blank"
+    );
+  }
+
+  async function generateObsidianNote() {
+    if (!pomodoro.currentTask) {
+      showToast("请先选择章节", "从课程大纲中选择");
+      return;
+    }
+    var ch = pomodoro.currentTask.chapter;
+    addLearnedChapter(ch);
+    var d = new Date().toISOString().split("T")[0];
+    var noteType = document.getElementById("note-type").value;
+    var btn = document.getElementById("btn-generate-note");
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 生成中...';
+
+    var content = "";
+    try {
+      if (hasApiKey()) {
+        var typeLabel = noteType === "concept" ? "概念理解" : noteType === "practice" ? "实战踩坑" : "架构设计";
+        var typeInstructions = {
+          concept: "请生成一份详细的概念理解笔记，包含：1）核心概念的定义与原理（至少3个关键概念，用 [[双链]] 格式标注）；2）概念之间的关联与区别；3）关键代码片段（带注释）；4）面试常问及参考答案；5）个人理解提示区。内容要具体、有深度，不要写占位符。",
+          practice: "请生成一份实战踩坑笔记，包含：1）该技术在实际开发中常见的3-5个坑点（具体描述错误现象）；2）每个坑的根因分析；3）解决方案与修复代码；4）预防措施清单。内容要具体、有深度，不要写占位符。",
+          architecture: "请生成一份架构设计笔记，包含：1）该技术适用的业务场景；2）关键设计决策对比表（至少3个决策点）；3）性能指标参考值；4）相关架构模式（用 [[双链]] 标注）；5）扩展性考量。内容要具体、有深度，不要写占位符。"
+        };
+        var sp = "你是技术学习笔记生成专家。请为用户学习「" + ch + "」这一章节生成一份高质量的 Obsidian Markdown 笔记。" + typeInstructions[noteType] + " 笔记中涉及的关键技术术语请用 [[双链]] 格式标注以便 Obsidian 关联。只输出 Markdown 内容，不要多余解释。";
+        content = await callLLM([{ role: "user", content: "请为「" + ch + "」生成" + typeLabel + "笔记。" }], sp);
+        content = "---\ntags: [" + noteType + ", obsidian]\ndate: " + d + "\n---\n\n# [[" + ch + "]] " + typeLabel + "笔记\n\n" + content + "\n\n---\n*Generated by AgentCareer-Hub*";
+      } else {
+        content = buildRichTemplate(ch, d, noteType);
+      }
+    } catch (_) {
+      content = buildRichTemplate(ch, d, noteType);
+    }
+    btn.disabled = false;
+    btn.innerHTML = "✨ 生成 Obsidian 笔记";
+    await exportToObsidian(ch + "_笔记.md", content, showToast);
+  }
+
+  function buildRichTemplate(ch, d, noteType) {
+    if (noteType === "concept") {
+      return "---\ntags: [concept, obsidian]\ndate: " + d + "\n---\n\n# [[" + ch + "]] 概念理解笔记\n\n## 核心概念\n- [[" + ch + "]] 的定义与核心原理是什么？\n- 它解决了什么问题？为什么需要它？\n- 与传统方案相比有什么本质区别？\n\n## 关键概念关联\n- [[" + ch + "]] 与 [[相关概念A]] 的关系？\n- [[" + ch + "]] 与 [[相关概念B]] 的区别？\n\n## 关键代码片段\n```python\n# 在这里记录本章节的核心代码实现\n```\n\n## 面试常问\n- Q: 请简述 " + ch + " 的核心原理？\n- A: \n\n- Q: " + ch + " 在生产环境中有哪些常见问题？\n- A: \n\n## 个人理解\n用自己的话解释 " + ch + "：\n\n\n---\n*Generated by AgentCareer-Hub*";
+    } else if (noteType === "practice") {
+      return "---\ntags: [practice, obsidian]\ndate: " + d + "\n---\n\n# [[" + ch + "]] 实战踩坑笔记\n\n## 场景描述\n我在什么场景下使用 " + ch + " 时遇到了问题？\n\n## 常见坑点\n### 坑点 1：\n- 错误现象：\n- 根因：\n- 解决：\n\n### 坑点 2：\n- 错误现象：\n- 根因：\n- 解决：\n\n## 修复代码\n```python\n# 修复后的代码\n```\n\n## 预防清单\n- [ ] 代码审查要点\n- [ ] 测试用例补充\n- [ ] 监控告警配置\n\n---\n*Generated by AgentCareer-Hub*";
+    } else {
+      return "---\ntags: [architecture, obsidian]\ndate: " + d + "\n---\n\n# [[" + ch + "]] 架构设计笔记\n\n## 业务场景\n" + ch + " 适用于什么业务场景？规模多大？\n\n## 关键设计决策\n| 决策点 | 方案A | 方案B | 选择理由 |\n|--------|-------|-------|----------|\n| 数据存储 | | | |\n| 通信方式 | | | |\n| 扩展策略 | | | |\n\n## 性能指标\n- QPS: \n- 延迟: \n- 准确率: \n\n## 相关架构模式\n- [[Pattern A]]\n- [[Pattern B]]\n\n## 扩展性考量\n- 水平扩展方案：\n- 容灾降级策略：\n\n---\n*Generated by AgentCareer-Hub*";
+    }
+  }
+
+  async function exportStudyLog() {
+    if (pomodoro.studyRecords.length === 0) {
+      showToast("暂无记录", "请先完成至少一个番茄钟");
+      return;
+    }
+    var d = new Date().toISOString().split("T")[0];
+    var content =
+      "---\ntags: [daily-notes, study]\ndate: " +
+      d +
+      "\n---\n\n# " +
+      d +
+      " 学习日志\n\n" +
+      pomodoro.studyRecords
+        .map(function (r) {
+          return "- [x] " + r.timestamp + " | " + r.chapter + " (" + r.duration + "min)";
+        })
+        .join("\n") +
+      "\n\n## 已攻克\n" +
+      window.UserCareerState.learnedChapters
+        .map(function (c) {
+          return "- [[" + c + "]]";
+        })
+        .join("\n") +
+      "\n\n---\n*Generated by AgentCareer-Hub*";
+    await exportToObsidian(d + "_学习日志.md", content, showToast);
+  }
+
+  /* ══════════════════ COURSES DATABASE ══════════════════ */
+  var courseDatabase = {
+    1: {
+      id: 1,
+      title: "【LangGraph官方系列教程】Agent智能体开发",
+      url: "https://www.bilibili.com/video/BV1cfQHYeEaA",
+      chapters: [
+        { name: "P1: Intro与Agent Executor原理", bvid: "BV1cfQHYeEaA", p: 1 },
+        { name: "P2: Chat Agent Executor构建", bvid: "BV1cfQHYeEaA", p: 2 },
+        { name: "P3: Human-in-the-Loop人机交互", bvid: "BV1cfQHYeEaA", p: 3 },
+        { name: "P4: 工具输出直连与格式控制", bvid: "BV1cfQHYeEaA", p: 4 },
+        { name: "P5: Agent步骤管理与强制调用", bvid: "BV1cfQHYeEaA", p: 5 },
+        { name: "P6: Multi-Agent多智能体工作流", bvid: "BV1cfQHYeEaA", p: 6 },
+        { name: "P7: Persistence持久化机制", bvid: "BV1cfQHYeEaA", p: 7 },
+      ],
+    },
+    2: {
+      id: 2,
+      title: "【企业级高级RAG实战】检索增强生成深度优化",
+      url: "https://www.bilibili.com/video/BV11CE9ztEYZ",
+      chapters: [
+        { name: "P1: RAG基础架构与索引构建", bvid: "BV11CE9ztEYZ", p: 1 },
+        { name: "P2: Dense Retrieval向量检索优化", bvid: "BV11CE9ztEYZ", p: 2 },
+        { name: "P3: Sparse Retrieval混合检索策略", bvid: "BV11CE9ztEYZ", p: 3 },
+        { name: "P4: Rerank重排模型选型与调优", bvid: "BV11CE9ztEYZ", p: 4 },
+        { name: "P5: 查询重写与扩展技术", bvid: "BV11CE9ztEYZ", p: 5 },
+        { name: "P6: 生产环境RAG性能优化", bvid: "BV11CE9ztEYZ", p: 6 },
+        { name: "P7: RAG系统评估与持续迭代", bvid: "BV11CE9ztEYZ", p: 7 },
+      ],
+    },
+  };
+
+  function refreshCoursesUI() {
+    var container = document.getElementById("courses-list");
+    container.innerHTML = "";
+    var sel = document.getElementById("selected-chapter-display");
+    var currentVal = pomodoro.currentTask ? pomodoro.currentTask.chapter : "";
+    sel.innerHTML = '<option value="">— 请选择章节 —</option>';
+    Object.values(courseDatabase).forEach(function (course) {
+      var optg = document.createElement("optgroup");
+      optg.label = course.title;
+      course.chapters.forEach(function (ch) {
+        var opt = document.createElement("option");
+        opt.value = ch.name;
+        opt.textContent = ch.name;
+        if (isChapterLearned(ch.name)) opt.textContent = "✓ " + ch.name;
+        if (ch.name === currentVal) opt.selected = true;
+        optg.appendChild(opt);
+      });
+      sel.appendChild(optg);
+      var div = document.createElement("div");
+      div.className = "course-card";
+      var titleEl = document.createElement("h4");
+      titleEl.textContent = course.title;
+      titleEl.addEventListener("click", function () {
+        window.open(course.url, "_blank");
+      });
+      div.appendChild(titleEl);
+      var tagsDiv = document.createElement("div");
+      tagsDiv.className = "tags";
+      course.chapters.forEach(function (ch) {
+        var tag = document.createElement("button");
+        tag.className = "tag" + (isChapterLearned(ch.name) ? " learned" : "");
+        tag.textContent = ch.name;
+        tag.addEventListener("click", function () {
+          selectChapter(course.title, ch.name, ch.bvid, ch.p);
+        });
+        tagsDiv.appendChild(tag);
+      });
+      div.appendChild(tagsDiv);
+      container.appendChild(div);
+    });
+  }
+
+  /* ══════════════════ BATTLE (SOCRATIC / FEYNMAN) ══════════════════ */
+  var battle = {
+    mode: "socratic",
+    isActive: false,
+    currentRound: 0,
+    questions: [],
+    answers: [],
+    score: 0,
+    showReport: false,
+  };
+
+  function refreshLearnedTags() {
+    var container = document.getElementById("learned-tags");
+    var chs = window.UserCareerState.learnedChapters;
+    if (chs.length === 0) {
+      container.innerHTML =
+        '<span style="font-size:13px;color:var(--text-tertiary);padding:8px 0;display:inline-block">暂无已学章节，请先在看板一中完成学习</span>';
+    } else {
+      container.innerHTML = chs
+        .map(function (ch) {
+          return '<span class="tag learned">✓ ' + ch + "</span>";
+        })
+        .join("");
+    }
+  }
+
+  function generateMockQuestions(learned, mode) {
+    var hasLG = learned.some(function (c) {
+      return c.includes("LangGraph") || c.includes("Agent");
+    });
+    var hasRAG = learned.some(function (c) {
+      return c.includes("RAG") || c.includes("检索");
+    });
+    var hasFC = learned.some(function (c) {
+      return c.includes("Function") || c.includes("工具");
+    });
+    var qs = [];
+    if (mode === "socratic") {
+      if (hasLG)
+        qs.push(
+          "你说掌握了 [[LangGraph StateGraph]]，那如果某个节点抛出了未捕获异常，你如何设计兜底机制？"
+        );
+      if (hasRAG)
+        qs.push(
+          "你提到了解 [[RAG 混合检索]]，那 Dense 和 Sparse 的结果如何融合？权重失衡怎么解决？"
+        );
+      if (hasFC)
+        qs.push(
+          "你说熟悉 [[Function Calling 异常处理]]，那工具执行超时，3次仍失败如何优雅降级？"
+        );
+      while (qs.length < 3)
+        qs.push(
+          "基于 " +
+            (learned[qs.length] || "知识点") +
+            "，说明生产环境中的异常及兜底方案。"
+        );
+    } else {
+      if (hasLG)
+        qs.push(
+          "请用大白话解释：[[LangGraph 状态机]] 是什么？禁止用专业术语。"
+        );
+      if (hasRAG)
+        qs.push(
+          "向一位财务经理解释 [[RAG 检索增强]]，用他熟悉的业务场景类比。"
+        );
+      if (hasFC)
+        qs.push(
+          "用最简单的比喻解释 [[Function Calling]] 参数解析失败，就像点外卖时发生了什么？"
+        );
+      while (qs.length < 3)
+        qs.push("用大白话解释 " + (learned[qs.length] || "这个技术") + "。");
+    }
+    return qs;
+  }
+
+  async function startBattle() {
+    var learned = window.UserCareerState.learnedChapters;
+    var knowledgeInput = document.getElementById("knowledge-input").value.trim();
+    if (!knowledgeInput && learned.length === 0) {
+      showToast("请导入知识点", "先在平时蓄水模块学习");
+      return;
+    }
+    battle.isActive = true;
+    battle.currentRound = 0;
+    battle.answers = [];
+    battle.score = 0;
+    battle.showReport = false;
+    document.getElementById("battle-start").style.display = "none";
+    document.getElementById("battle-report").style.display = "none";
+    var activeEl = document.getElementById("battle-active");
+    activeEl.style.display = "";
+    document.getElementById("battle-question-wrap").style.display = "none";
+    document.getElementById("battle-loading").style.display = "";
+    document.getElementById("battle-answer").value = "";
+
+    try {
+      if (hasApiKey()) {
+        var ls = learned.join(", ");
+        var sp =
+          battle.mode === "socratic"
+            ? "你是刻薄的大厂架构师面试官。用户已学：" +
+              ls +
+              "。生成针对生产环境的硬核追问。只输出问题。"
+            : "你是费曼学习法诊断专家。用户已学：" +
+              ls +
+              "。要求用户用大白话解释核心概念。只输出要求。";
+        var r = await callLLM(
+          [
+            {
+              role: "user",
+              content:
+                "我已掌握：\n" +
+                knowledgeInput +
+                "\n已学章节：" +
+                learned
+                  .map(function (c) {
+                    return "- " + c;
+                  })
+                  .join("\n") +
+                "\n\n请生成第1轮" +
+                (battle.mode === "socratic"
+                  ? "苏格拉底式工程拷问"
+                  : "费曼通俗解释要求") +
+                "：",
+            },
+          ],
+          sp
+        );
+        battle.questions = [r];
+      } else {
+        battle.questions = generateMockQuestions(learned, battle.mode);
+      }
+    } catch (_) {
+      battle.questions = generateMockQuestions(learned, battle.mode);
+    }
+    document.getElementById("battle-loading").style.display = "none";
+    document.getElementById("battle-question-wrap").style.display = "";
+    renderBattleQuestion();
+  }
+
+  function renderBattleQuestion() {
+    document.getElementById("round-badge").textContent =
+      "第 " + (battle.currentRound + 1) + " / 3 轮";
+    document.getElementById("battle-question").textContent =
+      battle.questions[battle.currentRound] || "";
+    document.getElementById("battle-answer").value = "";
+  }
+
+  function submitBattleAnswer() {
+    var answer = document.getElementById("battle-answer").value.trim();
+    if (!answer) {
+      showToast("请填写回答", "回答不能为空");
+      return;
+    }
+    battle.answers.push(answer);
+    var rs =
+      Math.min(100, 60 + Math.floor(Math.random() * 30) + (answer.length > 200 ? 10 : 0));
+    battle.score += rs;
+    document.getElementById("battle-answer").value = "";
+    if (battle.currentRound + 1 >= 3) {
+      battle.questions.forEach(function (q, i) {
+        if (battle.answers[i]) {
+          addPassedSocraticQuestion(
+            q,
+            battle.answers[i],
+            Math.floor(battle.score / 3)
+          );
+        }
+      });
+      battle.showReport = true;
+      document.getElementById("battle-active").style.display = "none";
+      document.getElementById("battle-report").style.display = "";
+      renderBattleReport();
+    } else {
+      battle.currentRound++;
+      renderBattleQuestion();
+    }
+  }
+
+  function renderBattleReport() {
+    var avg = Math.floor(battle.score / 3);
+    document.getElementById("battle-score-value").textContent = avg;
+    var circle = document.getElementById("battle-score-ring");
+    circle.setAttribute("stroke-dasharray", avg * 2.83 + " 283");
+  }
+
+  function resetBattle() {
+    battle.isActive = false;
+    battle.currentRound = 0;
+    battle.questions = [];
+    battle.answers = [];
+    battle.score = 0;
+    battle.showReport = false;
+    document.getElementById("battle-start").style.display = "";
+    document.getElementById("battle-active").style.display = "none";
+    document.getElementById("battle-report").style.display = "none";
+  }
+
+  async function exportFlashcards() {
+    var qs = window.UserCareerState.passedSocraticQuestions;
+    if (qs.length === 0) {
+      showToast("暂无问答", "请先完成演练");
+      return;
+    }
+    var fc = qs
+      .map(function (item) {
+        return (
+          "#flashcards\n\nQ: " +
+          item.question.replace(/\[\[(.*?)\]\]/g, "$1").substring(0, 150) +
+          "...\n?\nA: " +
+          item.answer.replace(/\n/g, " ").substring(0, 200) +
+          "...\n\n---"
+        );
+      })
+      .join("\n\n");
+    await exportToObsidian(
+      "战前演练闪卡.md",
+      "---\ntags: [flashcards, obsidian]\n---\n\n# 战前演练闪卡\n\n" +
+        fc +
+        "\n\n---\n*Generated by AgentCareer-Hub*",
+      showToast
+    );
+  }
+
+  /* ══════════════════ MOCK INTERVIEW ══════════════════ */
+  var interviewQuestions = [
+    {
+      question:
+        "你在使用 LangGraph 构建 Agent 工作流时，遇到过 State 状态在节点间传递丢失或污染的问题吗？请描述你的排查思路和工程兜底方案。",
+      keyPoints: ["状态管理", "节点隔离", "异常兜底", "调试方法"],
+    },
+    {
+      question:
+        "在 RAG 系统中，你如何处理检索结果与生成模型之间的语义鸿沟？请从工程角度谈谈混合检索 + Rerank 的落地经验。",
+      keyPoints: ["混合检索", "Rerank模型", "语义鸿沟", "工程优化"],
+    },
+    {
+      question:
+        "Function Calling 在实际生产环境中经常遇到工具参数解析失败或工具执行异常，你设计了怎样的工程兜底机制？",
+      keyPoints: ["参数校验", "重试机制", "降级策略", "日志追踪"],
+    },
+    {
+      question:
+        "假设你的 Agent 服务 QPS 突然飙升，Pandas 数据处理成为瓶颈，你会从哪些维度进行性能优化和稳定性保障？",
+      keyPoints: ["性能分析", "向量化优化", "缓存策略", "异步处理"],
+    },
+    {
+      question:
+        "你如何评估一个 Agent 系统的输出稳定性？请从测试策略、监控指标和持续优化三个维度阐述。",
+      keyPoints: ["单元测试", "A/B测试", "监控指标", "反馈闭环"],
+    },
+  ];
+
+  var interview = {
+    started: false,
+    currentQ: 0,
+    answers: [],
+    score: 0,
+    showReport: false,
+  };
+
+  function startInterview() {
+    interview.started = true;
+    interview.currentQ = 0;
+    interview.answers = [];
+    interview.score = 0;
+    interview.showReport = false;
+    document.getElementById("interview-start").style.display = "none";
+    document.getElementById("interview-report").style.display = "none";
+    document.getElementById("interview-active").style.display = "";
+    renderInterviewQuestion();
+  }
+
+  function renderInterviewQuestion() {
+    document.getElementById("interview-round-badge").textContent =
+      "第 " + (interview.currentQ + 1) + " / " + interviewQuestions.length + " 题";
+    document.getElementById("interview-question").textContent =
+      interviewQuestions[interview.currentQ].question;
+    document.getElementById("interview-answer").value = "";
+  }
+
+  function submitInterviewAnswer() {
+    var answer = document.getElementById("interview-answer").value.trim();
+    if (!answer) {
+      showToast("请填写回答", "回答不能为空");
+      return;
+    }
+    interview.answers.push(answer);
+    document.getElementById("interview-answer").value = "";
+    if (interview.currentQ + 1 >= interviewQuestions.length) {
+      var total = 0;
+      var highlights = [];
+      interview.answers.forEach(function (ans, idx) {
+        var q = interviewQuestions[idx];
+        var s = 50;
+        if (ans.length > 100) s += 10;
+        if (ans.length > 300) s += 10;
+        q.keyPoints.forEach(function (kp) {
+          if (ans.toLowerCase().includes(kp.toLowerCase())) s += 5;
+        });
+        var fs = Math.min(100, s);
+        total += fs;
+        if (fs > 80) highlights.push("第" + (idx + 1) + "题表现出色，覆盖了 " + q.keyPoints.join("、"));
+      });
+      interview.score = Math.floor(total / interviewQuestions.length);
+      setMockInterviewResult(interview.score, highlights.join("\n"));
+      interview.showReport = true;
+      document.getElementById("interview-active").style.display = "none";
+      var reportEl = document.getElementById("interview-report");
+      reportEl.style.display = "";
+      renderInterviewReport();
+      refreshResumeStats();
+    } else {
+      interview.currentQ++;
+      renderInterviewQuestion();
+    }
+  }
+
+  function renderInterviewReport() {
+    document.getElementById("iv-score-value").textContent = interview.score;
+    var circle = document.getElementById("iv-score-ring");
+    circle.setAttribute("stroke-dasharray", interview.score * 2.83 + " 283");
+    document.getElementById("interview-highlights").textContent =
+      window.UserCareerState.mockInterviewHighlights || "整体表现平稳";
+  }
+
+  function resetInterview() {
+    interview.started = false;
+    interview.currentQ = 0;
+    interview.answers = [];
+    interview.score = 0;
+    interview.showReport = false;
+    document.getElementById("interview-start").style.display = "";
+    document.getElementById("interview-active").style.display = "none";
+    document.getElementById("interview-report").style.display = "none";
+  }
+
+  async function exportInterviewReport() {
+    var d = new Date().toISOString().split("T")[0];
+    await exportToObsidian(
+      d + "_面试复盘.md",
+      "---\ntags: [interview, obsidian]\ndate: " +
+        d +
+        "\n---\n\n# 模拟面试复盘报告\n\n## 综合得分：" +
+        interview.score +
+        " / 100\n\n## 面试亮点\n" +
+        (window.UserCareerState.mockInterviewHighlights || "暂无") +
+        "\n\n## 改进建议\n1. 补充 [[Rerank]] 工程实践\n2. 深入 LangGraph 持久化机制\n3. 建立可观测性思维\n\n---\n*Generated by AgentCareer-Hub*",
+      showToast
+    );
+  }
+
+  /* ══════════════════ RESUME ══════════════════ */
+  var resume = {
+    resumeText: "",
+    optimizedText: "",
+    userName: "求职者",
+    jobTitle: "AI Agent 应用实习生",
+    jdText: "",
+  };
+
+  function extractName(text) {
+    var fl = text.trim().split("\n")[0].trim();
+    if (/^[\u4e00-\u9fa5]{2,4}$/.test(fl)) return fl;
+    var m = text.match(/(?:姓名|名字|Name)[：:]\s*([^\n]+)/i);
+    return m ? m[1].trim() : "求职者";
+  }
+
+  var _docxLib = null;
+  var _pdfLib = null;
+
+  async function loadDocxLib() {
+    if (_docxLib) return _docxLib;
+    try {
+      var s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js";
+      document.head.appendChild(s);
+      await new Promise(function (res, rej) { s.onload = res; s.onerror = rej; setTimeout(rej, 15000); });
+      _docxLib = window.mammoth;
+      return _docxLib;
+    } catch (_) { throw new Error("DOCX 解析库加载失败，请检查网络"); }
+  }
+
+  async function loadPdfLib() {
+    if (_pdfLib) return _pdfLib;
+    try {
+      var s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.min.mjs";
+      s.type = "module";
+      document.head.appendChild(s);
+      await new Promise(function (res) { setTimeout(res, 2000); });
+      _pdfLib = window.pdfjsLib || (await import("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.min.mjs")).default;
+      if (_pdfLib && _pdfLib.GlobalWorkerOptions) _pdfLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.worker.min.mjs";
+      return _pdfLib;
+    } catch (_) {}
+    try {
+      var s2 = document.createElement("script");
+      s2.src = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.min.js";
+      document.head.appendChild(s2);
+      await new Promise(function (res, rej) { s2.onload = res; s2.onerror = rej; setTimeout(rej, 15000); });
+      _pdfLib = window.pdfjsLib;
+      if (_pdfLib && _pdfLib.GlobalWorkerOptions) _pdfLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.worker.min.js";
+      return _pdfLib;
+    } catch (__) { throw new Error("PDF 解析库加载失败，请检查网络"); }
+  }
+
+  async function handleResumeFileUpload(e) {
+    var f = e.target.files[0];
+    if (!f) return;
+    var ext = f.name.split(".").pop().toLowerCase();
+    try {
+      if (ext === "txt" || ext === "md") {
+        var t = await f.text();
+        resume.resumeText = t;
+        resume.userName = extractName(t);
+        document.getElementById("resume-text").value = t;
+        showToast("简历上传成功", "已识别姓名：" + resume.userName);
+      } else if (ext === "docx") {
+        showToast("正在解析 Word...", "首次加载需下载解析库，请稍候");
+        var mammoth = await loadDocxLib();
+        var arrayBuffer = await f.arrayBuffer();
+        var result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+        var text = result.value;
+        if (!text || text.trim().length < 10) throw new Error("Word 文件内容为空或无法读取");
+        resume.resumeText = text;
+        resume.userName = extractName(text);
+        document.getElementById("resume-text").value = text;
+        showToast("Word 简历上传成功", "已识别姓名：" + resume.userName);
+      } else if (ext === "pdf") {
+        showToast("正在解析 PDF...", "首次加载需下载解析库，请稍候");
+        var pdfjs = await loadPdfLib();
+        var pdfArrayBuf = await f.arrayBuffer();
+        var pdfDoc = await pdfjs.getDocument({ data: pdfArrayBuf }).promise;
+        var lines = [];
+        for (var i = 1; i <= pdfDoc.numPages; i++) {
+          var page = await pdfDoc.getPage(i);
+          var content = await page.getTextContent();
+          content.items.forEach(function (item) {
+            if (item.str) lines.push(item.str);
+          });
+        }
+        var pdfText = lines.join("\n");
+        if (!pdfText || pdfText.trim().length < 10) throw new Error("PDF 文件内容为空或无法读取");
+        resume.resumeText = pdfText;
+        resume.userName = extractName(pdfText);
+        document.getElementById("resume-text").value = pdfText;
+        showToast("PDF 简历上传成功", "已识别姓名：" + resume.userName);
+      } else {
+        showToast("暂不支持此格式", "请上传 TXT / MD / DOCX / PDF");
+      }
+    } catch (err) {
+      showToast("文件解析失败", err.message || "请尝试粘贴文本内容或使用其他格式");
+    }
+  }
+
+  function loadMockResume() {
+    var mock =
+      "张三\n计算机科学与技术专业 | 本科应届生\n\n【项目经历】\n1. 智能客服聊天机器人 - Python/Flask\n2. 数据分析工具 - Pandas\n\n【技能】\nPython, Pandas, Flask, OpenAI API, Git";
+    resume.resumeText = mock;
+    resume.userName = "张三";
+    document.getElementById("resume-text").value = mock;
+    showToast("Mock 简历已加载", "请粘贴 JD 后点击优化");
+  }
+
+  function extractKeywords(text) {
+    if (!text || text.length < 10) return [];
+    return [
+      "Python", "LangGraph", "RAG", "Pandas", "Agent", "LLM",
+      "Function Calling", "FastAPI", "Docker",
+    ]
+      .filter(function (kw) {
+        return text.toLowerCase().includes(kw.toLowerCase());
+      })
+      .slice(0, 8);
+  }
+
+  async function generateUltimateResume() {
+    if (!resume.resumeText) {
+      showToast("请上传简历", "先上传或加载 Mock 简历");
+      return;
+    }
+    var btn = document.getElementById("btn-optimize-resume");
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> 优化中...';
+    var kws = extractKeywords(resume.jdText);
+    var cs = window.UserCareerState;
+    try {
+      if (hasApiKey()) {
+        var r = await callLLM(
+          [
+            {
+              role: "user",
+              content:
+                "【原始简历】\n" +
+                resume.resumeText +
+                "\n\n【目标岗位】\n" +
+                resume.jobTitle +
+                "\n\n【JD】\n" +
+                resume.jdText +
+                "\n\n【关键词】\n" +
+                kws.join(", ") +
+                "\n\n【真实战果】\n1. 已学章节：" +
+                cs.learnedChapters.join(", ") +
+                "\n2. 战前通关：" +
+                cs.passedSocraticQuestions.length +
+                "题\n3. 面试得分：" +
+                (cs.mockInterviewScore || "未进行") +
+                "\n4. 面试亮点：" +
+                (cs.mockInterviewHighlights || "暂无") +
+                "\n\n请生成金牌简历。",
+            },
+          ],
+          "你是资深HR和简历优化专家。基于用户的真实学习记录和测试表现，生成具备说服力的金牌简历。"
+        );
+        resume.optimizedText = r;
+        showToast("金牌简历生成完成", "已整合全局真实战果");
+      } else {
+        var projects = [];
+        if (
+          cs.learnedChapters.some(function (c) {
+            return c.includes("LangGraph") || c.includes("Agent");
+          })
+        )
+          projects.push(
+            "**基于 LangGraph 的多智能体工作流系统**\n- 设计 StateGraph 状态流转图，实现节点间状态隔离\n- 集成 Checkpointer 持久化机制"
+          );
+        if (
+          cs.learnedChapters.some(function (c) {
+            return c.includes("RAG") || c.includes("检索");
+          })
+        )
+          projects.push(
+            "**企业级 RAG 检索增强生成系统**\n- 实现混合检索策略，召回率提升 40%\n- 集成 Rerank 重排模型，精确率提升 25%"
+          );
+        resume.optimizedText =
+          "## " +
+          resume.userName +
+          " —— " +
+          resume.jobTitle +
+          "\n\n> 🏆 真实备战数据：" +
+          cs.learnedChapters.length +
+          " 章节学习 | " +
+          cs.passedSocraticQuestions.length +
+          " 题通关 | 面试 " +
+          (cs.mockInterviewScore || "已完成") +
+          "分\n\n### 核心优势\n- 具备 **AI Agent 全栈开发** 实战经验，熟悉 " +
+          cs.learnedChapters
+            .slice(0, 3)
+            .map(function (c) {
+              return "[[" + c + "]]";
+            })
+            .join("、") +
+          "\n- 通过系统化战前演练，深入理解异常兜底与稳定性设计\n\n### 项目经历\n" +
+          (projects.length > 0
+            ? projects.join("\n\n")
+            : "**AI Agent 应用开发项目**\n- 完成 " +
+              cs.learnedChapters.length +
+              " 个章节学习与沉淀") +
+          "\n\n### 技术栈\nLangGraph, RAG, Function Calling, Python, Pandas, FastAPI, Docker, Git\n\n---\n*AgentCareer-Hub 基于真实学习记录智能生成*";
+        showToast("Mock 简历生成完成", "未配置 API Key，使用智能 Mock");
+      }
+    } catch (err) {
+      showToast("优化失败", err.message);
+    }
+    document.getElementById("resume-preview").textContent = resume.optimizedText;
+    btn.disabled = false;
+    btn.innerHTML = "✨ 终极一键完美优化";
+  }
+
+  var CYC_CSS = "html{font-size:16px}body{font-family:'Open Sans','Microsoft YaHei',sans-serif;color:#333;line-height:1.6;margin:0;padding:0}#resume-content{max-width:860px;margin:0 auto;padding:30px 40px 60px}h1{text-align:center;font-size:2em;border-bottom:1px solid #eee;padding-bottom:.4em;line-height:1.2;color:#222;margin-top:0}h2{font-size:1.15em;font-weight:700;border-bottom:1px solid #eee;padding-bottom:4px;margin-top:28px;margin-bottom:10px;color:#333}h3{font-size:1.05em;font-weight:600;margin-top:14px;margin-bottom:6px;color:#444}strong{color:#111;font-weight:600}p,ul,ol{margin:.4em 0}li{margin-bottom:2px;line-height:1.7}ul,ol{padding-left:30px}a{color:#4183c4;text-decoration:none}a:hover{text-decoration:underline}.contact-bar{text-align:center;color:#666;font-size:.92em;margin:-8px 0 20px;line-height:1.8}.contact-bar span{margin:0 6px}.highlight{background:#e8f4fd;padding:2px 5px;border-radius:3px;color:#1a73e8;font-weight:600}.section-hr{border:none;border-top:1px solid #eee;margin:18px 0}blockquote{border-left:4px solid #dfe2e5;padding:0 15px;color:#666;margin:.6em 0}table{width:100%;border-collapse:collapse;margin:.6em 0}table td,table th{border:1px solid #dfe2e5;padding:5px 10px;text-align:left}table th{background:#f8f8f8;font-weight:600}@media print{html{font-size:13px}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}#resume-content{padding:10px 0 0}h2{page-break-after:avoid}table,pre,blockquote{page-break-inside:avoid}@page{margin:15mm 10mm}}";
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function inlineFormat(text) {
+    text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    text = text.replace(/\[(.+?)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>');
+    text = text.replace(/\[\[(.*?)\]\]/g, '<span class="highlight">$1</span>');
+    text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
+    return text;
+  }
+
+  function mdToHtml(md) {
+    var lines = md.split("\n");
+    var out = [];
+    var inList = false;
+    var listTag = "";
+    for (var i = 0; i < lines.length; i++) {
+      var raw = lines[i];
+      var m;
+      if (/^#{1,6}\s/.test(raw)) {
+        if (inList) { out.push("</" + listTag + ">"); inList = false; }
+        m = raw.match(/^(#+)\s+(.*)/);
+        var level = m[1].length;
+        var content = m[2];
+        if (level === 1) {
+          out.push("<h1>" + escapeHtml(content) + "</h1>");
+        } else {
+          out.push("<h" + level + ">" + inlineFormat(content) + "</h" + level + ">");
+        }
+      } else if ((m = raw.match(/^>\s?(.*)/))) {
+        if (inList) { out.push("</" + listTag + ">"); inList = false; }
+        var c = m[1].replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+        c = c.replace(/\[\[(.*?)\]\]/g, '$1');
+        out.push('<div class="contact-bar">' + c + '</div>');
+      } else if ((m = raw.match(/^(-|\*)\s+(.*)/))) {
+        if (!inList || listTag !== "ul") {
+          if (inList) out.push("</" + listTag + ">");
+          out.push("<ul>");
+          inList = true; listTag = "ul";
+        }
+        out.push("<li>" + inlineFormat(m[2]) + "</li>");
+      } else if ((m = raw.match(/^(\d+)\.\s+(.*)/))) {
+        if (!inList || listTag !== "ol") {
+          if (inList) out.push("</" + listTag + ">");
+          out.push("<ol>");
+          inList = true; listTag = "ol";
+        }
+        out.push("<li>" + inlineFormat(m[2]) + "</li>");
+      } else if (/^-{3,}$/.test(raw.trim())) {
+        if (inList) { out.push("</" + listTag + ">"); inList = false; }
+        out.push('<hr class="section-hr"/>');
+      } else if (raw.trim() === "") {
+        if (inList) { out.push("</" + listTag + ">"); inList = false; }
+      } else {
+        if (inList) { out.push("</" + listTag + ">"); inList = false; }
+        out.push("<p>" + inlineFormat(escapeHtml(raw)) + "</p>");
+      }
+    }
+    if (inList) out.push("</" + listTag + ">");
+    return out.join("\n");
+  }
+
+  function buildCycResume(contentMd) {
+    var bodyHtml = mdToHtml(contentMd);
+    return (
+      '<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n<meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
+      '<title>' + escapeHtml(resume.userName) + ' - ' + escapeHtml(resume.jobTitle) + '</title>\n' +
+      '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
+      '<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">\n' +
+      '<style>' + CYC_CSS + '</style>\n</head>\n<body>\n<div id="resume-content">\n' +
+      bodyHtml +
+      '\n</div>\n</body>\n</html>'
+    );
+  }
+
+  function exportResume(fmt) {
+    if (!resume.optimizedText) {
+      showToast("请先生成简历", "点击终极一键优化");
+      return;
+    }
+    if (fmt === "doc") {
+      var html = buildCycResume(resume.optimizedText);
+      var blob = new Blob(["\uFEFF" + html], { type: "application/msword" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = resume.userName + "_简历.doc"; a.click();
+      URL.revokeObjectURL(url);
+      showToast("Word 已导出", "用 Microsoft Word 或 WPS 打开即可编辑");
+    } else {
+      var html = buildCycResume(resume.optimizedText);
+      var blob = new Blob(["\uFEFF" + html], { type: "text/html;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var win = window.open(url, "_blank");
+      if (win) {
+        showToast("简历已在新标签页打开", "浏览器中按 Ctrl+P / ⌘+P 即可打印为 PDF");
+      } else {
+        var a = document.createElement("a");
+        a.href = url; a.download = resume.userName + "_简历.html"; a.click();
+        URL.revokeObjectURL(url);
+        showToast("HTML 已导出", "用浏览器打开后按 Ctrl+P / ⌘+P 打印为 PDF");
+      }
+    }
+  }
+
+  function refreshResumeStats() {
+    var cs = window.UserCareerState;
+    document.getElementById("stat-chapters").textContent = cs.learnedChapters.length;
+    document.getElementById("stat-socratic").textContent = cs.passedSocraticQuestions.length;
+    document.getElementById("stat-interview").textContent = cs.mockInterviewScore || 0;
+  }
+
+  /* ══════════════════ EVENT BINDINGS ══════════════════ */
+  function bindEvents() {
+    document.getElementById("btn-start").addEventListener("click", startPomodoro);
+    document.getElementById("btn-pause").addEventListener("click", pausePomodoro);
+    document.getElementById("btn-reset").addEventListener("click", resetPomodoro);
+    document.getElementById("btn-generate-note").addEventListener("click", generateObsidianNote);
+    document.getElementById("btn-export-log").addEventListener("click", exportStudyLog);
+
+    document.getElementById("selected-chapter-display").addEventListener("change", function () {
+      var chapterName = this.value;
+      if (!chapterName) {
+        pomodoro.currentTask = null;
+        updatePomodoroUI();
+        return;
+      }
+      var found = null;
+      Object.values(courseDatabase).forEach(function (course) {
+        course.chapters.forEach(function (ch) {
+          if (ch.name === chapterName) found = { course: course, chapter: ch };
+        });
+      });
+      if (found) {
+        pomodoro.currentTask = { course: found.course.title, chapter: found.chapter.name };
+        updatePomodoroUI();
+      }
+    });
+
+    var modeBtns = document.querySelectorAll("#mode-toggle button");
+    modeBtns.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        modeBtns.forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        battle.mode = btn.getAttribute("data-mode");
+      });
+    });
+
+    document.getElementById("btn-start-battle").addEventListener("click", startBattle);
+    document.getElementById("btn-submit-answer").addEventListener("click", submitBattleAnswer);
+    document.getElementById("btn-reset-battle").addEventListener("click", resetBattle);
+    document.getElementById("btn-export-flashcards").addEventListener("click", exportFlashcards);
+
+    document.getElementById("btn-start-interview").addEventListener("click", startInterview);
+    document.getElementById("btn-submit-interview").addEventListener("click", submitInterviewAnswer);
+    document.getElementById("btn-reset-interview").addEventListener("click", resetInterview);
+    document.getElementById("btn-export-report").addEventListener("click", exportInterviewReport);
+
+    document.getElementById("resumeFileInput").addEventListener("change", handleResumeFileUpload);
+    document.getElementById("btn-load-mock").addEventListener("click", loadMockResume);
+    document.getElementById("btn-optimize-resume").addEventListener("click", generateUltimateResume);
+    document.getElementById("btn-export-doc").addEventListener("click", function () { exportResume("doc"); });
+    document.getElementById("btn-export-html").addEventListener("click", function () { exportResume("html"); });
+
+    document.getElementById("resume-text").addEventListener("input", function () {
+      resume.resumeText = this.value;
+      resume.userName = extractName(this.value);
+    });
+    document.getElementById("job-title").addEventListener("input", function () {
+      resume.jobTitle = this.value;
+      if (resume.optimizedText) {
+        document.getElementById("resume-preview").textContent =
+          "⚠️ 目标岗位已变更为「" + this.value + "」，如需重新生成请点击「终极一键完美优化」\n\n---\n\n" +
+          resume.optimizedText;
+      }
+    });
+    document.getElementById("jd-text").addEventListener("input", function () {
+      resume.jdText = this.value;
+    });
+  }
+
+  /* ══════════════════ INIT ══════════════════ */
+  function init() {
+    loadState();
+    loadPomodoroState();
+    refreshDashboardWidgets();
+    refreshCoursesUI();
+    updatePomodoroUI();
+    refreshLearnedTags();
+    refreshResumeStats();
+    bindEvents();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
